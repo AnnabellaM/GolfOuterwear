@@ -17,7 +17,7 @@ const productSchema = new mongoose.Schema(
   {
     _id: {
       type: Schema.Types.ObjectId,
-      default: new mongoose.Types.ObjectId(),
+      required: true,
     },
 
     name: {

@@ -7,7 +7,7 @@ module.exports = () => {
   // list products
 
   // create product
-  router.post('/', createProductRouter);
+  router.use('/', createProductRouter());
 
   // update product info
 
