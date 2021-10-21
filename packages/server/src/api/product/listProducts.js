@@ -32,8 +32,11 @@ module.exports = () => {
         docs,
         totalDocs,
       } = await Product.paginate(
-        // find docs where name like %keyword%. if keyword is undefined, it will use empty string instead
-        {name: {$regex: keyword || '', $options: 'i'}},
+        {
+          // find docs where name like %keyword%. if keyword is undefined, it will use empty string instead
+          name: {$regex: keyword || '', $options: 'i'},
+          isActive: true,
+        },
         {
           limit,
           offset,

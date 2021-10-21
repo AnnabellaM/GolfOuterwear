@@ -21,7 +21,6 @@ module.exports = () => {
         description: Joi.string().allow("").required(),
         imageUrl: Joi.string().uri().allow("").required(),
         stock: Joi.number().integer().required(),
-        isActive: Joi.boolean().required(),
       })
     ),
 
@@ -35,7 +34,6 @@ module.exports = () => {
         description,
         imageUrl,
         stock,
-        isActive,
       } = req.body;
 
       // build product doc
@@ -48,7 +46,6 @@ module.exports = () => {
         description,
         imageUrl,
         stock,
-        isActive,
       });
       // save doc into db
       await product.save();

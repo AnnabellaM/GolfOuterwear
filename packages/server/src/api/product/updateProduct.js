@@ -40,7 +40,6 @@ module.exports = () => {
         description,
         imageUrl,
         stock,
-        isActive,
       } = req.body;
 
       // find product doc
@@ -54,7 +53,6 @@ module.exports = () => {
       product.description = description;
       product.imageUrl = imageUrl;
       product.stock = stock;
-      product.isActive = isActive;
 
       // update doc into db
       await product.save();
