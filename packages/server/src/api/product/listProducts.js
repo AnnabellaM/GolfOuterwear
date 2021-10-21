@@ -45,6 +45,7 @@ module.exports = () => {
       // response products
       res.send({
         data: docs.map(d => ({
+          id: d.id,
           name: d.name,
           price: d.price,
           currency: d.currency,
