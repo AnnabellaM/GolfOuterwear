@@ -21,9 +21,10 @@ module.exports = () => {
     async (req, res) => {
       const productId = req.params.id
 
-      // delete product
+      // soft delete the product
       await Product.updateOne({ _id: productId }, { isActive: false });
 
+      // response without content
       res.status(204).send();
     }
   );
