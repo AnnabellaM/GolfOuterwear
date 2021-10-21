@@ -1,5 +1,5 @@
 # Description
-This is developed by Maio and Max, and is a final project for CS6314.
+This is developed by Miao and Max, and is a final project for CS6314.
 
 # Project structure
 - `deployments`: this folder for the deployment scripts (not yet built)  
