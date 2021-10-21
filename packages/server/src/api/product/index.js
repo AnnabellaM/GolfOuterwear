@@ -2,6 +2,7 @@ const express = require('express');
 const createProductRouter = require('./createProduct');
 const listProductsRouter = require('./listProducts');
 const updateProductRouter = require('./updateProduct');
+const deleteProductRouter = require('./deleteProduct');
 
 module.exports = () => {
   const router = express.Router();
@@ -16,6 +17,7 @@ module.exports = () => {
   router.use(updateProductRouter());
 
   // delete product
+  router.use(deleteProductRouter());
 
   return router;
 }
