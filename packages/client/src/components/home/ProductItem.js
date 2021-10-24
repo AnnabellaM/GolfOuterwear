@@ -39,7 +39,7 @@ function ProductItem(props) {
       <Card>
         <img src={props.imageUrl} alt={props.name} className={classes['product-item-image']}/>
         <CardContent>
-          <Typography variant="h6" component="div">
+          <Typography variant="h6" component="div" className={classes['product-item-name']}>
             {props.name}
           </Typography>
           <Typography variant="body1" sx={{mt: 1}} className={classes['product-item-description']}>
