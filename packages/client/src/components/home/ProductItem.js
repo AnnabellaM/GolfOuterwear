@@ -23,7 +23,7 @@ function ProductItem(props) {
         recur(Math.floor(price / 1000));
       }
       const n = price % 1000
-      if (n === n && n !== (n | 0)) {
+      if (n !== (n | 0)) {
         priceStrArr.push(`${(n).toFixed(2)}`);
       } else {
         priceStrArr.push(`${n}`);

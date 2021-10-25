@@ -1,7 +1,7 @@
 class Agent {
   baseUrl = 'http://localhost:3000/api';
 
-  async listProducts({keyword, limit, offset}) {
+  listProducts({keyword, limit, offset}) {
     const query = {
       keyword: keyword || '',
       limit: limit || 20,
