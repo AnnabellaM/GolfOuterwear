@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import {useHistory, useLocation} from "react-router-dom";
 import {agent} from "../../agent";
 
-export default () => {
+const ProductList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadedProducts, setLoadedProducts] = useState([]);
   const [loadedTotalPage, setTotalPage] = useState(1);
@@ -24,6 +24,10 @@ export default () => {
     setIsLoading(true);
 
     // list products by calling api
+    fetchData();
+  }, [keyword, page]);
+
+  const fetchData = () => {
     agent.listProducts({keyword: keyword, limit: ITEM_PER_PAGE, offset: (page - 1) * ITEM_PER_PAGE})
       .then((res) => {
         return res.json();
@@ -33,7 +37,7 @@ export default () => {
         setLoadedProducts(() => data.data);
         setTotalPage(Math.ceil(data.pagination.total / ITEM_PER_PAGE));
       });
-  }, [keyword, page])
+  }
 
   const onPageChange = (e, p) => {
     const params = new URLSearchParams({keyword, page: p});
@@ -43,7 +47,7 @@ export default () => {
   if (isLoading) {
     return (
       <div>loading...</div>
-    )
+    );
   }
 
   return (
@@ -55,6 +59,7 @@ export default () => {
           return (
             <ProductItem
               key={product.id}
+              id={product.id}
               name={product.name}
               imageUrl={product.imageUrl}
               description={product.description}
@@ -62,6 +67,7 @@ export default () => {
               currency={product.currency}
               price={product.price}
               unit={product.unit}
+              onProductDelete={fetchData}
             />
           );
         })}
@@ -79,3 +85,5 @@ export default () => {
     </Container>
   )
 };
+
+export default ProductList;
