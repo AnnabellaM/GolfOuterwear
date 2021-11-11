@@ -92,7 +92,7 @@ export default (props) => {
               onBlur={onSearchBoxBlur}
             />
           </Search>
-          <Link href="./SignIn" variant="body2" color="secondary">
+          <Link href="./sign-in" variant="body2" color="secondary">
                   Hello! Sign in
           </Link>
         </Toolbar>

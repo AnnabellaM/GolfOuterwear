@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const Joi = require('joi');
+const validator = require('express-joi-validation').createValidator({});
 
 const { Customer } = require('../../models/customer');
 
@@ -10,14 +12,26 @@ module.exports = () => {
     // path
     '/',
 
+    // validator
+    validator.body(
+      Joi.object({
+        email: Joi.string().email().required(),
+        password: Joi.string().min(1).required(),
+        address: Joi.string().required(),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        phone: Joi.string().required(),
+      })
+    ),
+
     // controller
     async (req, res) => {
       const {
         email,
         password,
         address,
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         phone
       } = req.body;
 
@@ -27,8 +41,8 @@ module.exports = () => {
         email,
         password,
         address,
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         phone
       });
 
@@ -40,8 +54,8 @@ module.exports = () => {
         email: customer.email,
         password: customer.password,
         address: customer.address,
-        first_name: customer.first_name,
-        last_name: customer.last_name,
+        firstName: customer.firstName,
+        lastName: customer.lastName,
         phone: customer.phone
       });
     }

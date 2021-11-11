@@ -11,10 +11,10 @@ function App() {
         <Route path='/' exact>
           <HomePage/>
         </Route>
-        <Route path='/SignIn'>
+        <Route path='/sign-in'>
           <SignInPage/>
         </Route>
-        <Route path='/SignUp'>
+        <Route path='/sign-up'>
           <SignUpPage/>
         </Route>
       </Switch>

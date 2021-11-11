@@ -1,6 +1,6 @@
 const express = require('express');
 const createCustomerRouter = require('./createCustomer');
-const fetchCustomerRouter = require('./fetchCustomer');
+const customerSignInRouter = require('./customerSignIn');
 
 module.exports = () => {
   const router = express.Router();
@@ -8,7 +8,7 @@ module.exports = () => {
   // create customer
   router.use(createCustomerRouter());
 
-  router.use(fetchCustomerRouter());
+  router.use(customerSignInRouter());
 
   return router;
 }
