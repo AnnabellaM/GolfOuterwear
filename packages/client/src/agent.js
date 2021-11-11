@@ -55,6 +55,24 @@ class Agent {
     )
   }
 
+  // create product
+  async createProduct(id, data) {
+    const response = await fetch(
+      `${this.baseUrl}/products`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }
+    );
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
   // update product
   async updateProduct(id, data) {
     const response = await fetch(

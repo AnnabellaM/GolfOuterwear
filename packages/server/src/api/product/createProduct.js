@@ -46,11 +46,12 @@ module.exports = () => {
         currency,
         inventory,
         description,
+        isActive: true,
       });
       // save doc into db
       await product.save();
 
-      res.send({
+      res.status(201).send({
         id: product.id,
         imageUrl: product.imageUrl,
         name: product.name,

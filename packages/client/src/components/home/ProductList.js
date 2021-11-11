@@ -6,6 +6,7 @@ import Container from "@mui/material/Container";
 import {useEffect, useState} from "react";
 import {useHistory, useLocation} from "react-router-dom";
 import {agent} from "../../agent";
+import CreateProductDialog from "./CreateProductDialog";
 
 const ProductList = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -52,6 +53,10 @@ const ProductList = () => {
 
   return (
     <Container maxWidth="lg" sx={{py: 3}}>
+      {/*create product*/}
+      <Box sx={{mb: 2, textAlign: 'right'}}>
+        <CreateProductDialog afterProductCreated={fetchData}/>
+      </Box>
 
       {/*product list*/}
       <Grid container spacing={2}>
