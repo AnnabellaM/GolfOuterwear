@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
+import Link from '@mui/material/Link';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -14,6 +15,8 @@ const Search = styled('div')(({ theme }) => ({
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
+
+  marginRight: theme.spacing(2),
   marginLeft: 0,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
@@ -89,6 +92,9 @@ export default (props) => {
               onBlur={onSearchBoxBlur}
             />
           </Search>
+          <Link href="./sign-in" variant="body2" color="secondary">
+                  Hello! Sign in
+          </Link>
         </Toolbar>
       </AppBar>
     </Box>
