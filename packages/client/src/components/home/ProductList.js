@@ -60,13 +60,14 @@ const ProductList = () => {
             <ProductItem
               key={product.id}
               id={product.id}
-              name={product.name}
               imageUrl={product.imageUrl}
-              description={product.description}
-              stock={product.stock}
-              currency={product.currency}
+              name={product.name}
+              genre={product.genre}
               price={product.price}
-              unit={product.unit}
+              currency={product.currency}
+              inventory={product.inventory}
+              description={product.description}
+              afterProductUpdated={fetchData}
               afterProductDeleted={fetchData}
             />
           );

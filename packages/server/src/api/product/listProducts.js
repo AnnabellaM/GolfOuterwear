@@ -52,10 +52,10 @@ module.exports = () => {
           name: d.name,
           price: d.price,
           currency: d.currency,
-          unit: d.unit,
+          genre: d.genre,
           description: d.description,
           imageUrl: d.imageUrl,
-          stock: d.stock,
+          inventory: d.inventory,
           isActive: d.isActive,
         })),
         pagination: {

@@ -18,14 +18,13 @@ module.exports = () => {
     ),
     validator.body(
       Joi.object({
+        imageUrl: Joi.string().uri().allow('').required(),
         name: Joi.string().min(1).max(64).required(),
+        genre: Joi.string().valid('Jacket', 'Vest').required(),
         price: Joi.number().positive().min(0).max(Number.MAX_SAFE_INTEGER).required(),
         currency: Joi.string().valid('USD', 'RMB').required(),
-        unit: Joi.string().valid('pair', 'box', 'bag', 'piece').required(),
+        inventory: Joi.number().integer().required(),
         description: Joi.string().allow('').required(),
-        imageUrl: Joi.string().uri().allow('').required(),
-        stock: Joi.number().integer().required(),
-        isActive: Joi.boolean().required(),
       })
     ),
 
@@ -33,41 +32,31 @@ module.exports = () => {
     async (req, res) => {
       const productId = req.params.id
       const {
+        imageUrl,
         name,
+        genre,
         price,
         currency,
-        unit,
+        inventory,
         description,
-        imageUrl,
-        stock,
       } = req.body;
 
       // find product doc
       const product = await Product.findById(productId);
 
       // modify info
+      product.imageUrl = imageUrl;
       product.name = name;
+      product.genre = genre;
       product.price = price;
       product.currency = currency;
-      product.unit = unit;
+      product.inventory = inventory;
       product.description = description;
-      product.imageUrl = imageUrl;
-      product.stock = stock;
 
       // update doc into db
       await product.save();
 
-      res.send({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        currency: product.currency,
-        unit: product.unit,
-        description: product.description,
-        imageUrl: product.imageUrl,
-        stock: product.stock,
-        isActive: product.isActive,
-      });
+      res.send(product.toJSON());
     }
   );
 
