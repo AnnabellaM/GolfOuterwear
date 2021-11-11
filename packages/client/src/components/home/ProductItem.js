@@ -15,6 +15,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import classes from './ProductItem.module.css'
 import DeleteProductDialog from "./DeleteProductDialog";
 import UpdateProductDialog from "./UpdateProductDialog";
+import ProductDetailDialog from "./ProductDetailDialog";
 
 const ProductItem = (props) => {
 
@@ -87,6 +88,17 @@ const ProductItem = (props) => {
             <DeleteProductDialog
               id={props.id}
               afterProductDeleted={props.afterProductDeleted}
+            />
+
+            {/*view product detail*/}
+            <ProductDetailDialog
+              imageUrl={props.imageUrl}
+              name={props.name}
+              genre={props.genre}
+              price={props.price}
+              currency={props.currency}
+              inventory={props.inventory}
+              description={props.description}
             />
 
             {/*spacer*/}
