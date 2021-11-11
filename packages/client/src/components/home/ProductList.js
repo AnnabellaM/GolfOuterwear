@@ -67,7 +67,7 @@ const ProductList = () => {
               currency={product.currency}
               price={product.price}
               unit={product.unit}
-              onProductDelete={fetchData}
+              afterProductDeleted={fetchData}
             />
           );
         })}

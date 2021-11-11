@@ -22,6 +22,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import classes from './ProductItem.module.css'
 import {useState} from "react";
 import {agent} from "../../agent";
+import DeleteProductDialog from "./DeleteProductDialog";
 
 const ProductItem = (props) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -42,22 +43,6 @@ const ProductItem = (props) => {
     let priceStrArr = [];
     recur(price)
     return priceStrArr.join(',')
-  }
-
-  const showDeleteDialog = () => {
-    setIsDeleteDialogOpen(true);
-  }
-
-  const closeDeleteDialog = () => {
-    setIsDeleteDialogOpen(false);
-  }
-
-  const deleteProduct = () => {
-    agent.deleteProduct(props.id)
-      .then(() => {
-        closeDeleteDialog();
-        props.onProductDelete();
-      });
   }
 
   return (
@@ -97,36 +82,10 @@ const ProductItem = (props) => {
             </IconButton>
 
             {/*delete product*/}
-            <IconButton onClick={showDeleteDialog}>
-              <DeleteOutlineIcon/>
-            </IconButton>
-            <Dialog
-              open={isDeleteDialogOpen}
-              onClose={closeDeleteDialog}
-            >
-              <DialogTitle>
-                {"Info"}
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  <Typography variant="body1">
-                    {`Sure you want to delete the product`}
-                  </Typography>
-                  <Typography variant="body1" fontWeight="bold" color="secondary" display="inline">
-                    {props.name}
-                  </Typography>
-                  <Typography variant="body1" display="inline">
-                    {` ?`}
-                  </Typography>
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={closeDeleteDialog}>Disagree</Button>
-                <Button onClick={deleteProduct} autoFocus>
-                  Agree
-                </Button>
-              </DialogActions>
-            </Dialog>
+            <DeleteProductDialog
+              id={props.id}
+              afterProductDeleted={props.afterProductDeleted}
+            />
 
             {/*spacer*/}
             <Box sx={{flexGrow: 1}}/>
