@@ -14,6 +14,10 @@ module.exports = () => {
     validator.query(
       Joi.object({
         keyword: Joi.string().allow('').required(),
+        genre: Joi.string().valid(
+          'Jacket',
+          'Vest',
+        ).allow('').required(),
         limit: Joi.number().integer().required(),
         offset: Joi.number().integer().required(),
       })
@@ -23,6 +27,7 @@ module.exports = () => {
     async (req, res) => {
       const {
         keyword,
+        genre,
         limit,
         offset,
       } = req.query;
@@ -35,6 +40,7 @@ module.exports = () => {
         {
           // find docs where name like %keyword%. if keyword is undefined, it will use empty string instead
           name: {$regex: keyword || '', $options: 'i'},
+          genre: {$regex: genre || '', $options: 'i'},
           isActive: true,
         },
         {
@@ -47,17 +53,7 @@ module.exports = () => {
 
       // response products
       res.send({
-        data: docs.map(d => ({
-          id: d.id,
-          name: d.name,
-          price: d.price,
-          currency: d.currency,
-          genre: d.genre,
-          description: d.description,
-          imageUrl: d.imageUrl,
-          inventory: d.inventory,
-          isActive: d.isActive,
-        })),
+        data: docs.map(d => d.toJSON()),
         pagination: {
           limit: limit,
           offset: offset,

@@ -25,13 +25,14 @@ class Agent {
   }
 
   // list products
-  listProducts({keyword, limit, offset}) {
+  async listProducts({keyword, genre, limit, offset}) {
     const query = {
       keyword: keyword || '',
+      genre: genre || '',
       limit: limit || 20,
       offset: offset || 0,
     }
-    return fetch(
+    const response = await fetch(
       `${this.baseUrl}/products?${new URLSearchParams(query)}`,
       {
         method: 'GET',
@@ -40,6 +41,10 @@ class Agent {
         }
       }
     )
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
   }
 
   // delete product

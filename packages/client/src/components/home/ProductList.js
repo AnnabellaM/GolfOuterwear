@@ -18,6 +18,7 @@ const ProductList = () => {
   const ITEM_PER_PAGE = 5;
 
   let keyword = new URLSearchParams(location.search).get('keyword') || '';
+  let genre = new URLSearchParams(location.search).get('genre') || '';
   let page = +(new URLSearchParams(location.search).get('page')) || 1;
 
   useEffect(() => {
@@ -26,17 +27,27 @@ const ProductList = () => {
 
     // list products by calling api
     fetchData();
-  }, [keyword, page]);
+  }, [keyword, genre, page]);
 
   const fetchData = () => {
-    agent.listProducts({keyword: keyword, limit: ITEM_PER_PAGE, offset: (page - 1) * ITEM_PER_PAGE})
+    agent.listProducts({
+      keyword: keyword,
+      genre: genre,
+      limit: ITEM_PER_PAGE,
+      offset: (page - 1) * ITEM_PER_PAGE
+    })
       .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setIsLoading(false);
-        setLoadedProducts(() => data.data);
-        setTotalPage(Math.ceil(data.pagination.total / ITEM_PER_PAGE));
+        switch (res.status) {
+          case 200:
+            setIsLoading(false);
+            setLoadedProducts(() => res.body.data);
+            setTotalPage(Math.ceil(res.body.pagination.total / ITEM_PER_PAGE));
+            return;
+          case 400:
+            alert(res.body.message);
+            return;
+        }
+        alert('Unexpected error');
       });
   }
 
