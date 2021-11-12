@@ -1,0 +1,22 @@
+.image-uploader input{
+    display: none;
+}
+
+.image-uploader__frame {
+    width: 240px;
+    height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #9f9f9f;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.image-uploader__image {
+    width: 240px;
+    height: 240px;
+    object-fit: cover;
+}
+
+

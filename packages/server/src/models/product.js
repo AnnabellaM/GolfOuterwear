@@ -3,16 +3,6 @@ const mongoosePaginate = require('mongoose-paginate-v2');
 
 const Schema = mongoose.Schema;
 
-// _id: Index
-// name: string
-// price: float
-// currency: string
-// unit: string
-// description: string
-// image_url: string
-// stock: int
-// is_active: boolean
-
 const productSchema = new mongoose.Schema(
   {
     _id: {
@@ -20,9 +10,19 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
 
+    imageUrl: {
+      type: Schema.Types.String,
+      required: true,
+    },
+
     name: {
       type: Schema.Types.String,
       required: true,
+    },
+
+    genre: {
+      type: Schema.Types.String,
+      enum: ['Jacket', 'Vest'],
     },
 
     price: {
@@ -37,25 +37,15 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
 
-    unit: {
-      type: Schema.Types.String,
-      enum: ['pair', 'box', 'bag', 'piece'],
+    inventory: {
+      type: Schema.Types.Number,
+      required: true,
+      default: 0,
     },
 
     description: {
       type: Schema.Types.String,
       default: '',
-    },
-
-    imageUrl: {
-      type: Schema.Types.String,
-      required: true,
-    },
-
-    stock: {
-      type: Schema.Types.Number,
-      required: true,
-      default: 0,
     },
 
     isActive: {
@@ -81,12 +71,6 @@ productSchema.plugin(mongoosePaginate);
 productSchema.statics.build = (attrs) => {
   const product = new Product(attrs);
   if (attrs.id) product._id = attrs.id;
-  return product;
-};
-
-productSchema.statics.buildById = (id) => {
-  const product = new Product({id});
-  product._id = id;
   return product;
 };
 

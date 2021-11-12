@@ -14,51 +14,52 @@ module.exports = () => {
     // validator
     validator.body(
       Joi.object({
+        imageUrl: Joi.string().uri().allow('').required(),
         name: Joi.string().min(1).max(64).required(),
+        genre: Joi.string().valid('Jacket', 'Vest').required(),
         price: Joi.number().positive().min(0).max(Number.MAX_SAFE_INTEGER).required(),
         currency: Joi.string().valid('USD', 'RMB').required(),
-        unit: Joi.string().valid('pair', 'box', 'bag', 'piece').required(),
-        description: Joi.string().allow("").required(),
-        imageUrl: Joi.string().uri().allow("").required(),
-        stock: Joi.number().integer().required(),
+        inventory: Joi.number().integer().required(),
+        description: Joi.string().allow('').required(),
       })
     ),
 
     // controller
     async (req, res) => {
       const {
+        imageUrl,
         name,
+        genre,
         price,
         currency,
-        unit,
+        inventory,
         description,
-        imageUrl,
-        stock,
       } = req.body;
 
       // build product doc
       const product = Product.build({
         id: new mongoose.Types.ObjectId(),
+        imageUrl,
         name,
+        genre,
         price,
         currency,
-        unit,
+        inventory,
         description,
-        imageUrl,
-        stock,
+        isActive: true,
       });
       // save doc into db
       await product.save();
 
-      res.send({
+      res.status(201).send({
         id: product.id,
+        imageUrl: product.imageUrl,
         name: product.name,
+        genre: product.genre,
         price: product.price,
         currency: product.currency,
-        unit: product.unit,
+        inventory: product.inventory,
         description: product.description,
-        imageUrl: product.imageUrl,
-        stock: product.stock,
         isActive: product.isActive,
       });
     }

@@ -6,6 +6,7 @@ import Container from "@mui/material/Container";
 import {useEffect, useState} from "react";
 import {useHistory, useLocation} from "react-router-dom";
 import {agent} from "../../agent";
+import CreateProductDialog from "./CreateProductDialog";
 
 const ProductList = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,6 +18,7 @@ const ProductList = () => {
   const ITEM_PER_PAGE = 5;
 
   let keyword = new URLSearchParams(location.search).get('keyword') || '';
+  let genre = new URLSearchParams(location.search).get('genre') || '';
   let page = +(new URLSearchParams(location.search).get('page')) || 1;
 
   useEffect(() => {
@@ -25,17 +27,27 @@ const ProductList = () => {
 
     // list products by calling api
     fetchData();
-  }, [keyword, page]);
+  }, [keyword, genre, page]);
 
   const fetchData = () => {
-    agent.listProducts({keyword: keyword, limit: ITEM_PER_PAGE, offset: (page - 1) * ITEM_PER_PAGE})
+    agent.listProducts({
+      keyword: keyword,
+      genre: genre,
+      limit: ITEM_PER_PAGE,
+      offset: (page - 1) * ITEM_PER_PAGE
+    })
       .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setIsLoading(false);
-        setLoadedProducts(() => data.data);
-        setTotalPage(Math.ceil(data.pagination.total / ITEM_PER_PAGE));
+        switch (res.status) {
+          case 200:
+            setIsLoading(false);
+            setLoadedProducts(() => res.body.data);
+            setTotalPage(Math.ceil(res.body.pagination.total / ITEM_PER_PAGE));
+            return;
+          case 400:
+            alert(res.body.message);
+            return;
+        }
+        alert('Unexpected error');
       });
   }
 
@@ -52,6 +64,10 @@ const ProductList = () => {
 
   return (
     <Container maxWidth="lg" sx={{py: 3}}>
+      {/*create product*/}
+      <Box sx={{mb: 2, textAlign: 'right'}}>
+        <CreateProductDialog afterProductCreated={fetchData}/>
+      </Box>
 
       {/*product list*/}
       <Grid container spacing={2}>
@@ -60,14 +76,15 @@ const ProductList = () => {
             <ProductItem
               key={product.id}
               id={product.id}
-              name={product.name}
               imageUrl={product.imageUrl}
-              description={product.description}
-              stock={product.stock}
-              currency={product.currency}
+              name={product.name}
+              genre={product.genre}
               price={product.price}
-              unit={product.unit}
-              onProductDelete={fetchData}
+              currency={product.currency}
+              inventory={product.inventory}
+              description={product.description}
+              afterProductUpdated={fetchData}
+              afterProductDeleted={fetchData}
             />
           );
         })}

@@ -7,24 +7,17 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import Chip from "@mui/material/Chip";
 
 import StoreIcon from '@mui/icons-material/Store';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 import classes from './ProductItem.module.css'
-import {useState} from "react";
-import {agent} from "../../agent";
+import DeleteProductDialog from "./DeleteProductDialog";
+import UpdateProductDialog from "./UpdateProductDialog";
+import ProductDetailDialog from "./ProductDetailDialog";
 
 const ProductItem = (props) => {
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   // convert digit to price string
   const toPriceStr = (price) => {
@@ -44,22 +37,6 @@ const ProductItem = (props) => {
     return priceStrArr.join(',')
   }
 
-  const showDeleteDialog = () => {
-    setIsDeleteDialogOpen(true);
-  }
-
-  const closeDeleteDialog = () => {
-    setIsDeleteDialogOpen(false);
-  }
-
-  const deleteProduct = () => {
-    agent.deleteProduct(props.id)
-      .then(() => {
-        closeDeleteDialog();
-        props.onProductDelete();
-      });
-  }
-
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <Card>
@@ -71,19 +48,22 @@ const ProductItem = (props) => {
           <Typography variant="body1" sx={{mt: 1}} className={classes['product-item-description']}>
             {props.description}
           </Typography>
+          <Box sx={{mt: 2, textAlign: 'right'}}>
+            <Chip label={props.genre} color="secondary"/>
+          </Box>
           <Box sx={{mt: 2, display: 'flex', flexDirection: 'row'}}>
             <Box sx={{flexGrow: 1, textAlign: 'left'}}>
               <Tooltip title="Remaining inventory">
                 <Box sx={{display: 'flex', alignItems: 'center'}}>
                   <StoreIcon/>
                   <Typography variant="body2" sx={{ml: 1}}>
-                    {props.stock}
+                    {props.inventory}
                   </Typography>
                 </Box>
               </Tooltip>
             </Box>
             <Typography variant="body1" sx={{flexGrow: 1, textAlign: 'right', fontWeight: 'bold'}}>
-              {props.currency}${toPriceStr(props.price)}/{props.unit}
+              {props.currency}${toPriceStr(props.price)}
             </Typography>
           </Box>
         </CardContent>
@@ -91,42 +71,35 @@ const ProductItem = (props) => {
         <CardActions>
           <Box sx={{display: 'flex', flexDirection: 'row', width: '100%'}}>
 
-            {/*edit product*/}
-            <IconButton>
-              <EditIcon/>
-            </IconButton>
+            {/*update product*/}
+            <UpdateProductDialog
+              id={props.id}
+              imageUrl={props.imageUrl}
+              name={props.name}
+              genre={props.genre}
+              price={props.price}
+              currency={props.currency}
+              inventory={props.inventory}
+              description={props.description}
+              afterProductUpdated={props.afterProductUpdated}
+            />
 
             {/*delete product*/}
-            <IconButton onClick={showDeleteDialog}>
-              <DeleteOutlineIcon/>
-            </IconButton>
-            <Dialog
-              open={isDeleteDialogOpen}
-              onClose={closeDeleteDialog}
-            >
-              <DialogTitle>
-                {"Info"}
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  <Typography variant="body1">
-                    {`Sure you want to delete the product`}
-                  </Typography>
-                  <Typography variant="body1" fontWeight="bold" color="secondary" display="inline">
-                    {props.name}
-                  </Typography>
-                  <Typography variant="body1" display="inline">
-                    {` ?`}
-                  </Typography>
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={closeDeleteDialog}>Disagree</Button>
-                <Button onClick={deleteProduct} autoFocus>
-                  Agree
-                </Button>
-              </DialogActions>
-            </Dialog>
+            <DeleteProductDialog
+              id={props.id}
+              afterProductDeleted={props.afterProductDeleted}
+            />
+
+            {/*view product detail*/}
+            <ProductDetailDialog
+              imageUrl={props.imageUrl}
+              name={props.name}
+              genre={props.genre}
+              price={props.price}
+              currency={props.currency}
+              inventory={props.inventory}
+              description={props.description}
+            />
 
             {/*spacer*/}
             <Box sx={{flexGrow: 1}}/>
