@@ -130,6 +130,24 @@ class Agent {
     }
   }
 
+  // change product amount in cart
+  async changeProductAmountInCart(productId, amount) {
+    const response = await fetch(
+      `${this.baseUrl}/cart/products/${productId}/amount`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({amount})
+      }
+    )
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
   // sign up
   async signUp(info) {
     const response = await fetch(

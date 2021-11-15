@@ -6,14 +6,19 @@ const {Cart} = require("../../models/cart");
 module.exports = () => {
   const router = express.Router();
 
-  router.post(
+  router.put(
     // path
-    '/products/:id',
+    '/products/:id/amount',
 
     // validator
     validator.params(
       Joi.object({
         id: Joi.string().required(),
+      })
+    ),
+    validator.body(
+      Joi.object({
+        amount: Joi.number().integer().required(),
       })
     ),
 
@@ -22,6 +27,11 @@ module.exports = () => {
       // const {customerId} = req.auth;
       const customerId = '61929a1291f4d4016e60030a';
       const productId = req.params.id;
+      const amount = req.body.amount;
+
+      if (amount <= 0) {
+        return res.status(403).send({ message: `Product amount should at least be 1` });
+      }
 
       // find customer's cart
       const cart = await Cart.findOne({ customerId: customerId });
@@ -29,20 +39,13 @@ module.exports = () => {
         return res.status(403).send({ message: `Cart not existed` });
       }
 
-      // check if the product is already existed
-        // yes
-          // amount ++
-        // no
-          // add item in to cart { productId, amount: 1 }
+      // find target product
       const [item] = Array.from(cart.items).filter((i) => { return i.product.toString() === productId });
-      if (item) {
-        item.amount++;
-      } else {
-        cart.items.push({
-          productId: productId,
-          amount: 1,
-        });
+      if (!item) {
+        return res.status(403).send({ message: `Product not existed in cart` });
       }
+
+      item.amount = amount;
       await cart.save();
 
       res.status(200).send(cart.toJSON());

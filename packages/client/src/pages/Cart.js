@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import {agent} from "../agent";
 import Box from "@mui/material/Box";
 import CartItem from "../components/cart/CartItem";
-import ProductItem from "../components/home/ProductItem";
 
 const Cart = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -44,11 +43,11 @@ const Cart = () => {
     <Box sx={{display: 'flex', flexDirection: 'column'}}>
       {items.map((item) => {
         return (
-          <Box sx={{padding: 1}}>
+          <Box key={item._id} sx={{padding: 1}}>
             <CartItem
-              key={item.id}
-              id={item.id}
+              id={item._id}
               amount={item.amount}
+              productId={item.product.id}
               imageUrl={item.product.imageUrl}
               name={item.product.name}
               genre={item.product.genre}
