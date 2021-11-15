@@ -1,15 +1,21 @@
-import {useLocation, useHistory} from "react-router-dom";
+import {useLocation, useHistory, Switch, Route, useRouteMatch} from "react-router-dom";
 
 import AppBar from "../components/layout/AppBar";
 import ProductList from "../components/home/ProductList";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import Cart from "./Cart";
 
 function Home() {
+  const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
 
   const [keyword, setKeyword] = useState('');
   const [genre, setGenre] = useState('');
+
+  useEffect(() => {
+    console.log(match.path);
+  }, []);
 
   const onSearchByKeyword = (k) => {
     setKeyword(k);
@@ -31,8 +37,17 @@ function Home() {
         filterProducts={onFilterByGenre}
       />
 
+      <Switch>
+        <Route path={`${match.path}cart`}>
+          <Cart />
+        </Route>
+        <Route path={match.path}>
+          <ProductList />
+        </Route>
+      </Switch>
+
       {/*product list*/}
-      <ProductList />
+      {/*<ProductList />*/}
     </div>
   );
 }

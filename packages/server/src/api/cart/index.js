@@ -1,4 +1,5 @@
 const express = require('express');
+const getCart = require('./getCart');
 const addProductToCartRouter = require('./addProductToCart');
 
 module.exports = () => {
@@ -6,6 +7,9 @@ module.exports = () => {
 
   // add product to cart
   router.use(addProductToCartRouter());
+
+  // get cart
+  router.use(getCart())
 
   return router;
 }

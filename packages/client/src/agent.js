@@ -113,6 +113,23 @@ class Agent {
     }
   }
 
+  // get cart
+  async getCart() {
+    const response = await fetch(
+      `${this.baseUrl}/cart`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
   // sign up
   async signUp(info) {
     const response = await fetch(
