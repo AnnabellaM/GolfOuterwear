@@ -55,6 +55,7 @@ const Cart = () => {
               currency={item.product.currency}
               inventory={item.product.inventory}
               description={item.product.description}
+              afterItemRemoved={fetchData}
             />
           </Box>
         );

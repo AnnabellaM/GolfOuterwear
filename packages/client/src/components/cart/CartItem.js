@@ -7,10 +7,10 @@ import toPriceStr from '../../utils/toPriceStr';
 import classes from './CartItem.module.css';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from "@mui/icons-material/Add";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import IconButton from "@mui/material/IconButton";
 import * as React from "react";
 import {agent} from "../../agent";
+import RemoveCartItemDialog from "./RemoveCartItemDialog";
 
 const CartItem = (props) => {
   const [amount, setAmount] = useState(props.amount);
@@ -63,9 +63,10 @@ const CartItem = (props) => {
           </Typography>
         </Box>
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: 72}}>
-          <IconButton>
-            <DeleteOutlineIcon/>
-          </IconButton>
+          <RemoveCartItemDialog
+            id={props.productId}
+            afterItemRemoved={props.afterItemRemoved}
+          />
         </Box>
       </Box>
     </Card>

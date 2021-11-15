@@ -1,6 +1,7 @@
 const express = require('express');
 const getCart = require('./getCart');
 const addProductToCartRouter = require('./addProductToCart');
+const removeProductFromCartRouter = require('./removeProductFromCart');
 const changeProductAmountInCart = require('./changeProductAmountInCart');
 
 module.exports = () => {
@@ -11,6 +12,9 @@ module.exports = () => {
 
   // add product to cart
   router.use(addProductToCartRouter());
+
+  // remove product from cart
+  router.use(removeProductFromCartRouter());
 
   // get cart
   router.use(getCart())

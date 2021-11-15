@@ -148,6 +148,23 @@ class Agent {
     }
   }
 
+  // change product amount in cart
+  async removeProductFromCart(productId) {
+    const response = await fetch(
+      `${this.baseUrl}/cart/products/${productId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }
+    )
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
   // sign up
   async signUp(info) {
     const response = await fetch(
