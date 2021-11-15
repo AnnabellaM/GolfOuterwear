@@ -3,19 +3,18 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
 import Chip from "@mui/material/Chip";
 
 import StoreIcon from '@mui/icons-material/Store';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 import classes from './ProductItem.module.css'
 import DeleteProductDialog from "./DeleteProductDialog";
 import UpdateProductDialog from "./UpdateProductDialog";
 import ProductDetailDialog from "./ProductDetailDialog";
+import AddProductToCartButton from "./AddProductToCartButton";
 
 const ProductItem = (props) => {
 
@@ -105,9 +104,9 @@ const ProductItem = (props) => {
             <Box sx={{flexGrow: 1}}/>
 
             {/*add to cart*/}
-            <IconButton>
-              <AddShoppingCartIcon/>
-            </IconButton>
+            <AddProductToCartButton
+              id={props.id}
+            />
 
           </Box>
         </CardActions>

@@ -2,6 +2,7 @@ const express = require('express');
 const fileRouter = require('./file');
 const productRouter = require('./product');
 const customerRouter = require('./customer');
+const cartRouter = require('./cart');
 
 module.exports = () => {
   const router = express.Router();
@@ -18,6 +19,7 @@ module.exports = () => {
   router.use('/products', productRouter());
 
   // cart
+  router.use('/cart', cartRouter());
 
   // order
 

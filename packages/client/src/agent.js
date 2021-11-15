@@ -96,6 +96,23 @@ class Agent {
     }
   }
 
+  // add product to cart
+  async addProductToCart(id) {
+    const response = await fetch(
+      `${this.baseUrl}/cart/products/${id}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }
+    );
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
   // sign up
   async signUp(info) {
     const response = await fetch(
