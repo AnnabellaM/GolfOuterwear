@@ -2,10 +2,17 @@ import {useEffect, useState} from "react";
 import {agent} from "../agent";
 import Box from "@mui/material/Box";
 import CartItem from "../components/cart/CartItem";
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import toPriceStr from "../utils/toPriceStr";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 
 const Cart = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState([]);
+  const [totalPrices, setTotalPrices] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     // show loading page
@@ -22,7 +29,9 @@ const Cart = () => {
           case 200:
             setIsLoading(false);
             setItems(res.body.items);
-            console.log(res.body.items)
+            const tps = res.body.items.map(i => i.amount * i.product.price);
+            setTotalPrices(tps);
+            setTotalPrice(tps.reduce((p, c) => p + c));
             return;
           case 400:
             alert(res.body.message);
@@ -30,6 +39,15 @@ const Cart = () => {
         }
         alert('Unexpected error');
       });
+  }
+
+  const handleItemTotalPriceUpdated = (index, tp) => {
+    totalPrices[index] = tp;
+    computeTotalPrice();
+  }
+
+  const computeTotalPrice = () => {
+    setTotalPrice(totalPrices.reduce((p, c) => p + c));
   }
 
   if (isLoading) {
@@ -40,26 +58,50 @@ const Cart = () => {
 
   // Card items
   return (
-    <Box sx={{display: 'flex', flexDirection: 'column'}}>
-      {items.map((item) => {
-        return (
-          <Box key={item._id} sx={{padding: 1}}>
-            <CartItem
-              id={item._id}
-              amount={item.amount}
-              productId={item.product.id}
-              imageUrl={item.product.imageUrl}
-              name={item.product.name}
-              genre={item.product.genre}
-              price={item.product.price}
-              currency={item.product.currency}
-              inventory={item.product.inventory}
-              description={item.product.description}
-              afterItemRemoved={fetchData}
-            />
-          </Box>
-        );
-      })}
+    <Box>
+      <Box sx={{display: 'flex', flexDirection: 'column'}}>
+        {items.map((item, index) => {
+          return (
+            <Box key={item._id} sx={{padding: 1}}>
+              <CartItem
+                index={index}
+                id={item._id}
+                amount={item.amount}
+                productId={item.product.id}
+                imageUrl={item.product.imageUrl}
+                name={item.product.name}
+                genre={item.product.genre}
+                price={item.product.price}
+                currency={item.product.currency}
+                inventory={item.product.inventory}
+                description={item.product.description}
+                afterRemoved={fetchData}
+                afterTotalPriceUpdated={handleItemTotalPriceUpdated}
+              />
+            </Box>
+          );
+        })}
+      </Box>
+      <Box sx={{textAlign: 'right'}}>
+        <Box sx={{padding: 1}}>
+          <Card sx={{display: 'inline-flex'}}>
+            <Box sx={{display: 'inline-flex', alignItems: 'center', padding: 2}}>
+              <Typography variant="h6">Total price:</Typography>
+              <Typography variant="h4" color='secondary' sx={{ ml: 1 }}>
+                ${toPriceStr(totalPrice)}
+              </Typography>
+              <Button
+                variant='contained'
+                sx={{ ml: 3 }}
+                color='secondary'
+                disableElevation
+              >
+                Check out
+              </Button>
+            </Box>
+          </Card>
+        </Box>
+      </Box>
     </Box>
   )
 }

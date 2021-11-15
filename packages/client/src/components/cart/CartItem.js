@@ -21,6 +21,9 @@ const CartItem = (props) => {
       .then((res) => {
         if (res.status === 200) {
           setAmount(newAmount);
+          if (!!props.afterTotalPriceUpdated) {
+            props.afterTotalPriceUpdated(props.index, props.price * newAmount);
+          }
           return;
         }
         alert(res.body.message);
@@ -65,7 +68,7 @@ const CartItem = (props) => {
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: 72}}>
           <RemoveCartItemDialog
             id={props.productId}
-            afterItemRemoved={props.afterItemRemoved}
+            afterItemRemoved={props.afterRemoved}
           />
         </Box>
       </Box>
