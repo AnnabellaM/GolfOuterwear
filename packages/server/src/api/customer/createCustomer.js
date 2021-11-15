@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 const validator = require('express-joi-validation').createValidator({});
 
-const { Customer } = require('../../models/customer');
+const {Customer} = require('../../models/customer');
+const {Cart} = require('../../models/cart');
 
 module.exports = () => {
   const router = express.Router();
@@ -35,7 +36,7 @@ module.exports = () => {
         phone
       } = req.body;
 
-      // build customer doc
+      // create a customer
       const customer = Customer.build({
         id: new mongoose.Types.ObjectId(),
         email,
@@ -45,9 +46,15 @@ module.exports = () => {
         lastName,
         phone
       });
-
-      // save doc into db
       await customer.save();
+
+      // create a cart for customer
+      const cart = Cart.build({
+        id: new mongoose.Types.ObjectId(),
+        customerId: customer.id,
+        items: [],
+      })
+      await cart.save();
 
       res.send({
         id: customer.id,
