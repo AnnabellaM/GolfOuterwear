@@ -4,6 +4,7 @@ import AppBar from "../components/layout/AppBar";
 import ProductList from "../components/home/ProductList";
 import {useEffect, useState} from "react";
 import Cart from "./Cart";
+import Checkout from "./Checkout";
 
 function Home() {
   const match = useRouteMatch();
@@ -40,6 +41,9 @@ function Home() {
       <Switch>
         <Route path={`${match.path}cart`}>
           <Cart />
+        </Route>
+        <Route path={`${match.path}checkout`}>
+          <Checkout />
         </Route>
         <Route path={match.path}>
           <ProductList />

@@ -1,18 +1,22 @@
+import * as React from "react";
 import {useEffect, useState} from "react";
-import {agent} from "../agent";
+import {useHistory} from "react-router-dom";
+
 import Box from "@mui/material/Box";
-import CartItem from "../components/cart/CartItem";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
-import toPriceStr from "../utils/toPriceStr";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
+
+import {agent} from "../agent";
+import CartItem from "../components/cart/CartItem";
+import toPriceStr from "../utils/toPriceStr";
 
 const Cart = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [totalPrices, setTotalPrices] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const history = useHistory();
 
   useEffect(() => {
     // show loading page
@@ -87,14 +91,15 @@ const Cart = () => {
           <Card sx={{display: 'inline-flex'}}>
             <Box sx={{display: 'inline-flex', alignItems: 'center', padding: 2}}>
               <Typography variant="h6">Total price:</Typography>
-              <Typography variant="h4" color='secondary' sx={{ ml: 1 }}>
+              <Typography variant="h4" color='secondary' sx={{ml: 1}}>
                 ${toPriceStr(totalPrice)}
               </Typography>
               <Button
                 variant='contained'
-                sx={{ ml: 3 }}
+                sx={{ml: 3}}
                 color='secondary'
                 disableElevation
+                onClick={() => history.push('/checkout')}
               >
                 Check out
               </Button>
