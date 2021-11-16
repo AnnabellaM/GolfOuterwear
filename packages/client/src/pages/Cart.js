@@ -35,7 +35,7 @@ const Cart = () => {
             setItems(res.body.items);
             const tps = res.body.items.map(i => i.amount * i.product.price);
             setTotalPrices(tps);
-            setTotalPrice(tps.reduce((p, c) => p + c));
+            setTotalPrice(tps.reduce((p, c) => p + c, 0));
             return;
           case 400:
             alert(res.body.message);
@@ -62,7 +62,10 @@ const Cart = () => {
 
   // Card items
   return (
-    <Box>
+    <Box sx={{padding: 2}}>
+      <Box sx={{display: 'flex'}}>
+        <Typography variant="h6">Items</Typography>
+      </Box>
       <Box sx={{display: 'flex', flexDirection: 'column'}}>
         {items.map((item, index) => {
           return (

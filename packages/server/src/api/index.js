@@ -3,6 +3,7 @@ const fileRouter = require('./file');
 const productRouter = require('./product');
 const customerRouter = require('./customer');
 const cartRouter = require('./cart');
+const orderRouter = require('./order');
 
 module.exports = () => {
   const router = express.Router();
@@ -22,6 +23,7 @@ module.exports = () => {
   router.use('/cart', cartRouter());
 
   // order
+  router.use('/orders', orderRouter());
 
   return router;
 }
