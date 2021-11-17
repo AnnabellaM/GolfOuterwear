@@ -5,9 +5,6 @@ import Chip from "@mui/material/Chip";
 import toPriceStr from '../../utils/toPriceStr';
 import classes from './CheckoutItem.module.css';
 import * as React from "react";
-import IconButton from "@mui/material/IconButton";
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
 
 const CheckoutItem = (props) => {
 
