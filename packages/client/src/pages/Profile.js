@@ -6,7 +6,7 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 
 const Profile = () => {
-  const {profile} = useAuth();
+  const {profile, role} = useAuth();
 
   return (
     <Box sx={{padding: 2}}>
@@ -15,6 +15,12 @@ const Profile = () => {
       </Box>
       <Card sx={{padding: 2, m: 2}}>
         <Grid container>
+          <Grid item xs={2} sx={{p: 1, textAlign: 'right'}}>
+            <Typography variant='body1' fontWeight='bold'>Role</Typography>
+          </Grid>
+          <Grid item xs={10} sx={{p: 1}}>
+            <Typography variant='body1'>{role}</Typography>
+          </Grid>
           <Grid item xs={2} sx={{p: 1, textAlign: 'right'}}>
             <Typography variant='body1' fontWeight='bold'>Name</Typography>
           </Grid>

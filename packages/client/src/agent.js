@@ -256,7 +256,7 @@ class Agent {
     }
   }
 
-  // sign in
+  // customer sign in
   async customerSignIn(email, password) {
     const response = await fetch(
       `${this.baseUrl}/customers/sign-in`,
@@ -281,6 +281,45 @@ class Agent {
   async getCustomerInfo() {
     const response = await fetch(
       `${this.baseUrl}/customers/me`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
+        }
+      }
+    );
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
+  // admin sign in
+  async adminSignIn(email, password) {
+    const response = await fetch(
+      `${this.baseUrl}/admins/sign-in`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        })
+      }
+    );
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
+  // get admin info
+  async getAdminInfo() {
+    const response = await fetch(
+      `${this.baseUrl}/admins/me`,
       {
         method: 'GET',
         headers: {

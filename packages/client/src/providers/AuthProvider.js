@@ -41,7 +41,18 @@ const AuthProvider = ({children}) => {
           setRole(role);
         });
     } else if (role === ROLE_ADMIN) {
-
+      // admins sign in
+      agent.adminSignIn(email, password)
+        .then(async (res) => {
+          if (res.status !== 200) {
+            alert(res.body.message);
+            return;
+          }
+          localStorage.setItem('token', res.body.token);
+          localStorage.setItem('role', role);
+          setToken(res.body.token);
+          setRole(role);
+        });
     }
   };
 
@@ -58,6 +69,15 @@ const AuthProvider = ({children}) => {
             resolve();
           })
       } else if (role === ROLE_ADMIN) {
+        agent.getAdminInfo()
+          .then(res => {
+            if (res.status !== 200) {
+              alert(res.body.message);
+              return;
+            }
+            setProfile(res.body);
+            resolve();
+          })
       }
     })
   }

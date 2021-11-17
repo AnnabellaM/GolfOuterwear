@@ -16,9 +16,11 @@ import UpdateProductDialog from "./UpdateProductDialog";
 import ProductDetailDialog from "./ProductDetailDialog";
 import AddProductToCartButton from "./AddProductToCartButton";
 import {useCartNumber} from "../../providers/CartNumberProvider";
+import {useAuth} from "../../providers/AuthProvider";
 
 const ProductItem = (props) => {
   const {reloadCartNumber} = useCartNumber();
+  const {role} = useAuth();
 
   // convert digit to price string
   const toPriceStr = (price) => {
@@ -73,23 +75,40 @@ const ProductItem = (props) => {
           <Box sx={{display: 'flex', flexDirection: 'row', width: '100%'}}>
 
             {/*update product*/}
-            <UpdateProductDialog
-              id={props.id}
-              imageUrl={props.imageUrl}
-              name={props.name}
-              genre={props.genre}
-              price={props.price}
-              currency={props.currency}
-              inventory={props.inventory}
-              description={props.description}
-              afterProductUpdated={props.afterProductUpdated}
-            />
+            {
+              role === 'admin' ?
+                (
+                  <UpdateProductDialog
+                    id={props.id}
+                    imageUrl={props.imageUrl}
+                    name={props.name}
+                    genre={props.genre}
+                    price={props.price}
+                    currency={props.currency}
+                    inventory={props.inventory}
+                    description={props.description}
+                    afterProductUpdated={props.afterProductUpdated}
+                  />
+                ) :
+                (
+                  <></>
+                )
+            }
 
             {/*delete product*/}
-            <DeleteProductDialog
-              id={props.id}
-              afterProductDeleted={props.afterProductDeleted}
-            />
+            {
+              role === 'admin' ?
+                (
+                  <DeleteProductDialog
+                    id={props.id}
+                    afterProductDeleted={props.afterProductDeleted}
+                  />
+                ) :
+                (
+                  <></>
+                )
+            }
+
 
             {/*view product detail*/}
             <ProductDetailDialog
@@ -106,10 +125,18 @@ const ProductItem = (props) => {
             <Box sx={{flexGrow: 1}}/>
 
             {/*add to cart*/}
-            <AddProductToCartButton
-              id={props.id}
-              afterProductAdded={reloadCartNumber}
-            />
+            {
+              role === 'customer' ?
+                (
+                  <AddProductToCartButton
+                    id={props.id}
+                    afterProductAdded={reloadCartNumber}
+                  />
+                ) :
+                (
+                  <></>
+                )
+            }
 
           </Box>
         </CardActions>

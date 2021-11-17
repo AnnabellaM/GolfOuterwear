@@ -6,12 +6,21 @@ import Typography from "@mui/material/Typography";
 import OrderItem from "../components/order/OrderItem";
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
+import {useAuth} from "../providers/AuthProvider";
+import {useHistory} from "react-router-dom";
 
 const Orders = () => {
+  const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
   const [orders, setOrders] = useState([]);
+  const {role} = useAuth();
 
   useEffect(() => {
+    // admin can not view this page
+    if (role === 'admin') {
+      return history.replace('/');
+    }
+
     // show loading page
     setIsLoading(true);
 

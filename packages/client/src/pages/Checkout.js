@@ -22,7 +22,7 @@ import {useAuth} from "../providers/AuthProvider";
 const Checkout = () => {
   const history = useHistory();
   const {reloadCartNumber} = useCartNumber();
-  const {profile} = useAuth();
+  const {profile, role} = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState([]);
@@ -42,6 +42,11 @@ const Checkout = () => {
   const [payment, setPayment] = useState(PAYMENT_CREDIT_CARD);
 
   useEffect(() => {
+    // admin can not view this page
+    if (role === 'admin') {
+      return history.replace('/');
+    }
+
     // show loading page
     setIsLoading(true);
 

@@ -10,10 +10,8 @@ import SportsGolfIcon from '@mui/icons-material/SportsGolf';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {agent} from '../agent';
-import {useHistory} from "react-router-dom";
 import {useAuth} from "../providers/AuthProvider";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {MenuItem, Select} from "@mui/material";
 
 const theme = createTheme();
 

@@ -2,6 +2,7 @@ const express = require('express');
 const fileRouter = require('./file');
 const productRouter = require('./product');
 const customerRouter = require('./customer');
+const adminRouter = require('./admin');
 const cartRouter = require('./cart');
 const orderRouter = require('./order');
 
@@ -15,6 +16,7 @@ module.exports = () => {
   router.use('/customers', customerRouter());
 
   // admin
+  router.use('/admins', adminRouter());
 
   // product
   router.use('/products', productRouter());

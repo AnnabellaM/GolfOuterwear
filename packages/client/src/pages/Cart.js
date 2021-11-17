@@ -11,10 +11,12 @@ import {agent} from "../agent";
 import CartItem from "../components/cart/CartItem";
 import toPriceStr from "../utils/toPriceStr";
 import {useCartNumber} from "../providers/CartNumberProvider";
+import {useAuth} from "../providers/AuthProvider";
 
 const Cart = () => {
   const history = useHistory();
   const {reloadCartNumber} = useCartNumber();
+  const {role} = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState([]);
@@ -22,6 +24,11 @@ const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
+    // admin can not view this page
+    if (role === 'admin') {
+      return history.replace('/');
+    }
+
     // show loading page
     setIsLoading(true);
 

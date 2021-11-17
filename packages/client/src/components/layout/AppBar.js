@@ -16,6 +16,7 @@ import ActionButton from "./ActionButton";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {useHistory} from "react-router-dom";
 import {useCartNumber} from "../../providers/CartNumberProvider";
+import {useAuth} from "../../providers/AuthProvider";
 
 const Search = styled('div')(({theme}) => ({
   position: 'relative',
@@ -96,6 +97,7 @@ const BootstrapInput = styled(InputBase)(({theme}) => ({
 export default (props) => {
   const history = useHistory();
   const {cartNumber} = useCartNumber();
+  const {role} = useAuth();
 
   const [genre, setGenre] = React.useState('All');
 
@@ -164,19 +166,27 @@ export default (props) => {
               onBlur={onSearchBoxBlur}
             />
           </Search>
-          <IconButton onClick={() => history.push('/cart')}>
-            {
-              cartNumber === 0
-                ? (
-                  <ShoppingCartIcon sx={{color: 'white'}}/>
-                )
-                : (
-                  <Badge badgeContent={cartNumber} color="secondary">
-                    <ShoppingCartIcon sx={{color: 'white'}}/>
-                  </Badge>
-                )
-            }
-          </IconButton>
+          {
+            role === 'customer' ?
+              (
+                <IconButton onClick={() => history.push('/cart')}>
+                  {
+                    cartNumber === 0
+                      ? (
+                        <ShoppingCartIcon sx={{color: 'white'}}/>
+                      )
+                      : (
+                        <Badge badgeContent={cartNumber} color="secondary">
+                          <ShoppingCartIcon sx={{color: 'white'}}/>
+                        </Badge>
+                      )
+                  }
+                </IconButton>
+              ) :
+              (
+                <></>
+              )
+          }
           <ActionButton/>
         </Toolbar>
       </AppBar>

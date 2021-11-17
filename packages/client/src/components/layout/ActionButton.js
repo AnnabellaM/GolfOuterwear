@@ -17,7 +17,7 @@ import {useAuth} from "../../providers/AuthProvider";
 
 const ActionButton = () => {
   const history = useHistory();
-  const {signOut} = useAuth();
+  const {signOut, role} = useAuth();
 
   const [isOpen, setIsOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -81,9 +81,17 @@ const ActionButton = () => {
                   <MenuItem onClick={() => goToPage(PAGE_PROFILE)}>
                     <PersonIcon sx={{mr: 1}}/>Profile
                   </MenuItem>
-                  <MenuItem onClick={() => goToPage(PAGE_ORDERS)}>
-                    <AssignmentIcon sx={{mr: 1}}/>Orders
-                  </MenuItem>
+                  {
+                    role === 'customer' ?
+                      (
+                        <MenuItem onClick={() => goToPage(PAGE_ORDERS)}>
+                          <AssignmentIcon sx={{mr: 1}}/>Orders
+                        </MenuItem>
+                      ) :
+                      (
+                        <div/>
+                      )
+                  }
                   <MenuItem onClick={() => goToPage(PAGE_LOGOUT)}>
                     <LogoutIcon sx={{mr: 1}}/>Logout
                   </MenuItem>
