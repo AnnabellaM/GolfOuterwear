@@ -2,6 +2,8 @@ const express = require('express');
 const {Customer} = require('../../models/customer');
 const Joi = require('joi');
 const validator = require('express-joi-validation').createValidator({});
+const jwt = require('jsonwebtoken');
+const config = require('../../config');
 
 module.exports = () => {
   const router = express.Router();
@@ -39,10 +41,14 @@ module.exports = () => {
         return;
       }
 
+      const token = jwt.sign({
+        customerId: customer._id,
+      }, config.jwt.secret)
+
       // response customer info
-      const customerObj = customer.toJSON();
-      delete customerObj.password;
-      res.send(customerObj);
+      res.send({
+        token,
+      });
     }
   );
 

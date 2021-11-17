@@ -2,6 +2,7 @@ const express = require('express');
 const Joi = require('joi');
 const validator = require('express-joi-validation').createValidator({});
 const {Cart} = require("../../models/cart");
+const verifyToken = require('../../middlewares/verifyToken');
 
 module.exports = () => {
   const router = express.Router();
@@ -9,6 +10,9 @@ module.exports = () => {
   router.post(
     // path
     '/products/:id',
+
+    // verify token
+    verifyToken(),
 
     // validator
     validator.params(
@@ -19,8 +23,7 @@ module.exports = () => {
 
     // controller
     async (req, res) => {
-      // const {customerId} = req.auth;
-      const customerId = '61929a1291f4d4016e60030a';
+      const {customerId} = req.auth;
       const productId = req.params.id;
 
       // find customer's cart

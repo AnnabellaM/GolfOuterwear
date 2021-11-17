@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const {File} = require("../../models/file");
 const appRoot = require('app-root-path');
+const verifyToken = require('../../middlewares/verifyToken');
 
 module.exports = () => {
   const router = express.Router();
@@ -9,6 +10,9 @@ module.exports = () => {
   router.post(
     // path
     '/upload',
+
+    // verify token
+    verifyToken(),
 
     // controller
     async (req, res) => {

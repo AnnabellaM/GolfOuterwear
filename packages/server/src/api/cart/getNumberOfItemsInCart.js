@@ -1,5 +1,6 @@
 const express = require('express');
 const {Cart} = require("../../models/cart");
+const verifyToken = require('../../middlewares/verifyToken');
 
 module.exports = () => {
   const router = express.Router();
@@ -8,10 +9,12 @@ module.exports = () => {
     // path
     '/items/number',
 
+    // verify token
+    verifyToken(),
+
     // controller
     async (req, res) => {
-      // const {customerId} = req.auth;
-      const customerId = '61929a1291f4d4016e60030a';
+      const {customerId} = req.auth;
 
       // find customer's cart
       const cart = await Cart.findOne({ customerId: customerId })

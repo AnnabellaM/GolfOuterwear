@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const validator = require('express-joi-validation').createValidator({});
 const {Cart} = require("../../models/cart");
 const {Order} = require("../../models/order");
+const verifyToken = require('../../middlewares/verifyToken');
 
 module.exports = () => {
   const router = express.Router();
@@ -11,6 +12,9 @@ module.exports = () => {
   router.post(
     // path
     '/',
+
+    // verify token
+    verifyToken(),
 
     // validator
     validator.body(
@@ -31,8 +35,7 @@ module.exports = () => {
 
     // controller
     async (req, res) => {
-      // const {customerId} = req.auth;
-      const customerId = '61929a1291f4d4016e60030a';
+      const {customerId} = req.auth;
       const {
         payment,
         shipment,

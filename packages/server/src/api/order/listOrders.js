@@ -2,6 +2,7 @@ const express = require('express');
 const Joi = require('joi');
 const validator = require('express-joi-validation').createValidator({});
 const {Order} = require("../../models/order");
+const verifyToken = require('../../middlewares/verifyToken');
 
 module.exports = () => {
   const router = express.Router();
@@ -9,6 +10,9 @@ module.exports = () => {
   router.get(
     // path
     '/',
+
+    // verify token
+    verifyToken(),
 
     // validator
     validator.query(
@@ -30,9 +34,7 @@ module.exports = () => {
         docs,
         totalDocs,
       } = await Order.paginate(
-        {
-
-        },
+        {},
         {
           limit,
           offset,
