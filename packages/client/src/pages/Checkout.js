@@ -16,9 +16,11 @@ import toPriceStr from "../utils/toPriceStr";
 import {agent} from "../agent";
 import CheckoutItem from "../components/checkout/CheckoutItem";
 import {useHistory} from "react-router-dom";
+import {useCartNumber} from "../providers/cartNumberProvider";
 
 const Checkout = () => {
   const history = useHistory();
+  const {reloadCartNumber} = useCartNumber();
 
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState([]);
@@ -86,6 +88,7 @@ const Checkout = () => {
       .then((res) => {
         if (res.status === 201) {
           alert('Order created!');
+          reloadCartNumber();
           history.replace('/');
           return;
         }

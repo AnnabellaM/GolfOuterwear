@@ -10,13 +10,16 @@ import Typography from "@mui/material/Typography";
 import {agent} from "../agent";
 import CartItem from "../components/cart/CartItem";
 import toPriceStr from "../utils/toPriceStr";
+import {useCartNumber} from "../providers/cartNumberProvider";
 
 const Cart = () => {
+  const history = useHistory();
+  const {reloadCartNumber} = useCartNumber();
+
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [totalPrices, setTotalPrices] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const history = useHistory();
 
   useEffect(() => {
     // show loading page
@@ -82,7 +85,10 @@ const Cart = () => {
                 currency={item.product.currency}
                 inventory={item.product.inventory}
                 description={item.product.description}
-                afterRemoved={fetchData}
+                afterRemoved={() => {
+                  fetchData();
+                  reloadCartNumber();
+                }}
                 afterTotalPriceUpdated={handleItemTotalPriceUpdated}
               />
             </Box>
