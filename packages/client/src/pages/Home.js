@@ -19,13 +19,13 @@ function Home() {
   const onSearchByKeyword = (k) => {
     setKeyword(k);
     const params = new URLSearchParams({keyword: k, genre: genre, page: '1'});
-    history.push({pathname: location.pathname, search: params.toString()});
+    history.push({pathname: '/', search: params.toString()});
   }
 
   const onFilterByGenre = (g) => {
     setGenre(g);
     const params = new URLSearchParams({keyword: keyword, genre: g, page: '1'});
-    history.push({pathname: location.pathname, search: params.toString()});
+    history.push({pathname: '/', search: params.toString()});
   }
 
   return (
