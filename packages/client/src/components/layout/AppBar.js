@@ -1,18 +1,24 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import {styled, alpha} from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import Link from '@mui/material/Link';
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
+import Badge from "@mui/material/Badge";
+import ActionButton from "./ActionButton";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import {useHistory} from "react-router-dom";
+import {agent} from "../../agent";
+import {useCartNumber} from "../../providers/cartNumberProvider";
 
-const Search = styled('div')(({ theme }) => ({
+const Search = styled('div')(({theme}) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -29,7 +35,7 @@ const Search = styled('div')(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled('div')(({theme}) => ({
   padding: theme.spacing(0, 2),
   height: '100%',
   position: 'absolute',
@@ -39,7 +45,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   justifyContent: 'center',
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInputBase = styled(InputBase)(({theme}) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
@@ -89,7 +95,10 @@ const BootstrapInput = styled(InputBase)(({theme}) => ({
 }));
 
 export default (props) => {
+  const history = useHistory();
+
   const [genre, setGenre] = React.useState('All');
+  const {cartNumber} = useCartNumber();
 
   const onSearchBoxFocus = (e) => {
     // add 'Enter' listener when user focusing on the text field
@@ -103,7 +112,8 @@ export default (props) => {
 
   const onSearchBoxBlur = (e) => {
     // remove the event
-    e.target.removeEventListener('keypress', () => {});
+    e.target.removeEventListener('keypress', () => {
+    });
   }
 
   const handleGenreChange = (e) => {
@@ -116,14 +126,15 @@ export default (props) => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{flexGrow: 1}}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar sx={{zIndex: 999}}>
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            sx={{flexGrow: 1, display: {xs: 'none', sm: 'block'}, cursor: 'pointer'}}
+            onClick={() => history.push('/')}
           >
             Golf <Typography variant="h6" color="secondary" display="inline">Outerwear</Typography>
           </Typography>
@@ -145,18 +156,29 @@ export default (props) => {
           </FormControl>
           <Search>
             <SearchIconWrapper>
-              <SearchIcon />
+              <SearchIcon/>
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="ex: cap"
-              inputProps={{ 'aria-label': 'search' }}
+              inputProps={{'aria-label': 'search'}}
               onFocus={onSearchBoxFocus}
               onBlur={onSearchBoxBlur}
             />
           </Search>
-          <Link href="./sign-in" variant="body2" color="secondary">
-                  Hello! Sign in
-          </Link>
+          <IconButton onClick={() => history.push('/cart')}>
+            {
+              cartNumber === 0
+                ? (
+                  <ShoppingCartIcon sx={{color: 'white'}}/>
+                )
+                : (
+                  <Badge badgeContent={cartNumber} color="secondary">
+                    <ShoppingCartIcon sx={{color: 'white'}}/>
+                  </Badge>
+                )
+            }
+          </IconButton>
+          <ActionButton/>
         </Toolbar>
       </AppBar>
     </Box>

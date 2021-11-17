@@ -15,8 +15,10 @@ import DeleteProductDialog from "./DeleteProductDialog";
 import UpdateProductDialog from "./UpdateProductDialog";
 import ProductDetailDialog from "./ProductDetailDialog";
 import AddProductToCartButton from "./AddProductToCartButton";
+import {useCartNumber} from "../../providers/cartNumberProvider";
 
 const ProductItem = (props) => {
+  const {reloadCartNumber} = useCartNumber();
 
   // convert digit to price string
   const toPriceStr = (price) => {
@@ -106,6 +108,7 @@ const ProductItem = (props) => {
             {/*add to cart*/}
             <AddProductToCartButton
               id={props.id}
+              afterProductAdded={reloadCartNumber}
             />
 
           </Box>

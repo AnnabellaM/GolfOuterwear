@@ -3,6 +3,7 @@ import {Route, Switch} from 'react-router-dom';
 import HomePage from './pages/Home';
 import SignInPage from './pages/SignIn';
 import SignUpPage from './pages/SignUp';
+import {CartNumberProvider} from "./providers/cartNumberProvider";
 
 function App() {
   return (
@@ -15,7 +16,9 @@ function App() {
           <SignUpPage/>
         </Route>
         <Route path='/'>
-          <HomePage/>
+          <CartNumberProvider>
+            <HomePage/>
+          </CartNumberProvider>
         </Route>
       </Switch>
     </div>

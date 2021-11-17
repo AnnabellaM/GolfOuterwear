@@ -10,8 +10,8 @@ const AddProductToCartButton = (props) => {
       .then((res) => {
         switch (res.status) {
           case 200:
-            if (!!props.afterProductAddedToCart) {
-              props.afterProductAddedToCart();
+            if (!!props.afterProductAdded) {
+              props.afterProductAdded();
             }
             return;
           case 400:

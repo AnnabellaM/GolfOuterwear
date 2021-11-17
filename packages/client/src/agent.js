@@ -113,6 +113,23 @@ class Agent {
     }
   }
 
+  // get number of items in cart
+  async getNumberOfItemsInCart() {
+    const response = await fetch(
+      `${this.baseUrl}/cart/items/number`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }
+    );
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
   // get cart
   async getCart() {
     const response = await fetch(
