@@ -200,6 +200,27 @@ class Agent {
     }
   }
 
+  // list orders
+  async listOrders({limit, offset}) {
+    const query = {
+      limit: limit || 20,
+      offset: offset || 0,
+    }
+    const response = await fetch(
+      `${this.baseUrl}/orders?${new URLSearchParams(query)}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
   // sign up
   async signUp(info) {
     const response = await fetch(

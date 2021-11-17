@@ -5,6 +5,7 @@ import ProductList from "../components/home/ProductList";
 import {useEffect, useState} from "react";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
+import Orders from "./Orders";
 
 function Home() {
   const match = useRouteMatch();
@@ -45,13 +46,14 @@ function Home() {
         <Route path={`${match.path}checkout`}>
           <Checkout />
         </Route>
+        <Route path={`${match.path}orders`}>
+          <Orders />
+        </Route>
         <Route path={match.path}>
           <ProductList />
         </Route>
       </Switch>
 
-      {/*product list*/}
-      {/*<ProductList />*/}
     </div>
   );
 }
