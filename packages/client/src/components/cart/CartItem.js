@@ -49,16 +49,36 @@ const CartItem = (props) => {
             {props.currency}${toPriceStr(props.price)}
           </Typography>
         </Box>
-        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1}}>
-          <IconButton onClick={() => handleChangeAmount(-1)}>
-            <RemoveIcon/>
-          </IconButton>
-          <Typography variant="body2" sx={{px: 1}}>
-            {amount}
-          </Typography>
-          <IconButton onClick={() => handleChangeAmount(1)}>
-            <AddIcon/>
-          </IconButton>
+        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', flex: 1}}>
+          <Box sx={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center'}}>
+            <IconButton onClick={() => handleChangeAmount(-1)}>
+              <RemoveIcon/>
+            </IconButton>
+            <Typography variant="body2" sx={{px: 1}}>
+              {amount}
+            </Typography>
+            <IconButton onClick={() => handleChangeAmount(1)}>
+              <AddIcon/>
+            </IconButton>
+          </Box>
+          {
+            amount > props.inventory ?
+              (
+                <Typography variant='body2' fontWeight='bold' sx={{mt: 1, color: 'red'}}>
+                  May be out of stock
+                </Typography>
+              ) :
+              (
+                <Box sx={{display: 'inline-flex'}}>
+                  <Typography variant='body2' color='secondary' fontWeight='bold' sx={{mt: 1}}>
+                    {props.inventory}
+                  </Typography>
+                  <Typography variant='body2' sx={{mt: 1, ml: 1}}>
+                    in stock
+                  </Typography>
+                </Box>
+              )
+          }
         </Box>
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1}}>
           <Typography variant="body2">

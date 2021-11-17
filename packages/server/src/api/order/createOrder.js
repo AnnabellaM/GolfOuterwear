@@ -47,6 +47,14 @@ module.exports = () => {
         return res.status(403).send({message: `Cart not existed`});
       }
 
+      // check if product is enough
+      for (const item of cart.items) {
+        // product is not enough
+        if (item.amount > item.product.inventory) {
+          return res.status(403).send({message: `There are only ${item.product.inventory} piece of "${item.product.name}" in stock. You cannot buy ${item.amount} of it, please reduce the order amount in you cart!`});
+        }
+      }
+
       // save order
       const order = Order.build({
         id: new mongoose.Types.ObjectId(),
