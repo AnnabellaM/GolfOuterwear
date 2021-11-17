@@ -12,7 +12,7 @@ module.exports = () => {
     '/products/:id',
 
     // verify token
-    verifyToken(),
+    verifyToken(['customer']),
 
     // validator
     validator.params(

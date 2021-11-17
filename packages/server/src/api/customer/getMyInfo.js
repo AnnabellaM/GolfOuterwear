@@ -10,7 +10,7 @@ module.exports = () => {
     '/me',
 
     // verify token
-    verifyToken(),
+    verifyToken(['customer']),
 
     // controller
     async (req, res) => {

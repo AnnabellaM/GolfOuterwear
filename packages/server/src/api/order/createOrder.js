@@ -14,7 +14,7 @@ module.exports = () => {
     '/',
 
     // verify token
-    verifyToken(),
+    verifyToken(['customer']),
 
     // validator
     validator.body(

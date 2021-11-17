@@ -12,7 +12,7 @@ module.exports = () => {
     '/upload',
 
     // verify token
-    verifyToken(),
+    verifyToken(['admin', 'customer']),
 
     // controller
     async (req, res) => {
