@@ -3,7 +3,11 @@ class Agent {
 
   // format image url
   formatImageUrl(imageUrl) {
-    return `${this.baseUrl}/files${imageUrl}`
+    return `${this.baseUrl}/files${imageUrl}`;
+  }
+
+  getToken() {
+    return `Bearer ${localStorage.getItem('token')}`;
   }
 
   // upload image
@@ -15,6 +19,9 @@ class Agent {
       `${this.baseUrl}/files/upload`,
       {
         method: 'POST',
+        headers: {
+          'Authorization': this.getToken(),
+        },
         body: formData
       }
     );
@@ -54,7 +61,8 @@ class Agent {
       {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
         }
       }
     )
@@ -67,7 +75,8 @@ class Agent {
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
         },
         body: JSON.stringify(data)
       }
@@ -85,7 +94,8 @@ class Agent {
       {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
         },
         body: JSON.stringify(data)
       }
@@ -103,7 +113,8 @@ class Agent {
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
         },
       }
     );
@@ -120,7 +131,8 @@ class Agent {
       {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
         },
       }
     );
@@ -137,7 +149,8 @@ class Agent {
       {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
         }
       }
     )
@@ -154,7 +167,8 @@ class Agent {
       {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
         },
         body: JSON.stringify({amount})
       }
@@ -172,7 +186,8 @@ class Agent {
       {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
         },
       }
     )
@@ -189,7 +204,8 @@ class Agent {
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
         },
         body: JSON.stringify(data),
       }
@@ -211,7 +227,8 @@ class Agent {
       {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
         }
       }
     )
@@ -228,7 +245,7 @@ class Agent {
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(info)
       }
@@ -240,18 +257,36 @@ class Agent {
   }
 
   // sign in
-  async signIn(email, password) {
+  async customerSignIn(email, password) {
     const response = await fetch(
       `${this.baseUrl}/customers/sign-in`,
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: email,
           password: password,
         })
+      }
+    );
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
+  // get customer info
+  async getCustomerInfo() {
+    const response = await fetch(
+      `${this.baseUrl}/customers/me`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
+        }
       }
     );
     return {

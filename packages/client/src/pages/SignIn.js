@@ -12,30 +12,19 @@ import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {agent} from '../agent';
 import {useHistory} from "react-router-dom";
+import {useAuth} from "../providers/AuthProvider";
+import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
 const theme = createTheme();
 
 function SignIn() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-
-  const history = useHistory();
+  const [role, setRole] = React.useState('customer');
+  const {signIn} = useAuth();
 
   const handleSubmit = () => {
-    agent.signIn(email, password)
-      .then((res) => {
-        if (res.status === 200) {
-          history.replace('/');
-        }
-
-        else if (res.status === 400) {
-          alert(res.body.message);
-        }
-
-        else {
-          alert('Unexpected error');
-        }
-      })
+    signIn({role, email, password});
   };
 
   return (
@@ -83,6 +72,16 @@ function SignIn() {
               value={password}
               onInput={e => setPassword(e.target.value)}
             />
+            <Select
+              value={role}
+              onChange={e => setRole(e.target.value)}
+              label="Role"
+              fullWidth
+              sx={{mt: 1}}
+            >
+              <MenuItem value="customer">Customer</MenuItem>
+              <MenuItem value="admin">Admin</MenuItem>
+            </Select>
             <Button
               fullWidth
               variant="contained"

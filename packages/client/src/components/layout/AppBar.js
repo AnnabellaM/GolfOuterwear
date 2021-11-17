@@ -15,8 +15,7 @@ import Badge from "@mui/material/Badge";
 import ActionButton from "./ActionButton";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {useHistory} from "react-router-dom";
-import {agent} from "../../agent";
-import {useCartNumber} from "../../providers/cartNumberProvider";
+import {useCartNumber} from "../../providers/CartNumberProvider";
 
 const Search = styled('div')(({theme}) => ({
   position: 'relative',
@@ -96,9 +95,9 @@ const BootstrapInput = styled(InputBase)(({theme}) => ({
 
 export default (props) => {
   const history = useHistory();
+  const {cartNumber} = useCartNumber();
 
   const [genre, setGenre] = React.useState('All');
-  const {cartNumber} = useCartNumber();
 
   const onSearchBoxFocus = (e) => {
     // add 'Enter' listener when user focusing on the text field

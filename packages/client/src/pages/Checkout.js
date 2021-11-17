@@ -16,22 +16,24 @@ import toPriceStr from "../utils/toPriceStr";
 import {agent} from "../agent";
 import CheckoutItem from "../components/checkout/CheckoutItem";
 import {useHistory} from "react-router-dom";
-import {useCartNumber} from "../providers/cartNumberProvider";
+import {useCartNumber} from "../providers/CartNumberProvider";
+import {useAuth} from "../providers/AuthProvider";
 
 const Checkout = () => {
   const history = useHistory();
   const {reloadCartNumber} = useCartNumber();
+  const {profile} = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [cardNumber, setCardNumber] = useState('1111222233334444');
   const [expires, setExpires] = useState('01/23');
   const [cvv, setCvv] = useState('111');
-  const [email, setEmail] = useState('aaaa@aaaa.com');
-  const [firstName, setFirstName] = useState('aaaa');
-  const [lastName, setLastName] = useState('aaaa');
-  const [phone, setPhone] = useState('1234567890');
-  const [address, setAddress] = useState('dallas, TX');
+  const [email, setEmail] = useState(profile.email);
+  const [firstName, setFirstName] = useState(profile.firstName);
+  const [lastName, setLastName] = useState(profile.lastName);
+  const [phone, setPhone] = useState(profile.phone);
+  const [address, setAddress] = useState(profile.address);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const PAYMENT_CREDIT_CARD = 'creditcard'

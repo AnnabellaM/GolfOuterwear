@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import {agent} from "../agent";
 import CartItem from "../components/cart/CartItem";
 import toPriceStr from "../utils/toPriceStr";
-import {useCartNumber} from "../providers/cartNumberProvider";
+import {useCartNumber} from "../providers/CartNumberProvider";
 
 const Cart = () => {
   const history = useHistory();

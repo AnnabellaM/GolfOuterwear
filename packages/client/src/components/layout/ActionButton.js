@@ -13,9 +13,11 @@ import Paper from "@mui/material/Paper";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import MenuList from "@mui/material/MenuList";
 import {useHistory} from "react-router-dom";
+import {useAuth} from "../../providers/AuthProvider";
 
 const ActionButton = () => {
   const history = useHistory();
+  const {signOut} = useAuth();
 
   const [isOpen, setIsOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -40,7 +42,7 @@ const ActionButton = () => {
       case PAGE_ORDERS:
         return history.push('/orders');
       case PAGE_LOGOUT:
-        return history.replace('/sign-in');
+        return signOut();
     }
   }
 

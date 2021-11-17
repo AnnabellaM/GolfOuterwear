@@ -15,7 +15,7 @@ import DeleteProductDialog from "./DeleteProductDialog";
 import UpdateProductDialog from "./UpdateProductDialog";
 import ProductDetailDialog from "./ProductDetailDialog";
 import AddProductToCartButton from "./AddProductToCartButton";
-import {useCartNumber} from "../../providers/cartNumberProvider";
+import {useCartNumber} from "../../providers/CartNumberProvider";
 
 const ProductItem = (props) => {
   const {reloadCartNumber} = useCartNumber();
