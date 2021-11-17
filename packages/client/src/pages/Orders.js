@@ -29,7 +29,6 @@ const Orders = () => {
           case 200:
             setIsLoading(false);
             setOrders(() => res.body.data);
-            console.log(res.body);
             return;
           case 400:
             alert(res.body.message);
@@ -56,7 +55,7 @@ const Orders = () => {
             return (
               <Box sx={{p: 1}}>
                 <Card>
-                  <Grid xs={12}>
+                  <Grid>
                     {
                       order.items.map((item) => {
                         return (

@@ -117,7 +117,7 @@ const CreateProductDialog = (props) => {
               fullWidth
             >
               <MenuItem value="USD">USD</MenuItem>
-              <MenuItem value="RMB">RMB</MenuItem>
+              {/*<MenuItem value="RMB">RMB</MenuItem>*/}
             </Select>
           </FormControl>
           <TextField

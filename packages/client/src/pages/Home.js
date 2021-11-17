@@ -15,10 +15,6 @@ function Home() {
   const [keyword, setKeyword] = useState('');
   const [genre, setGenre] = useState('');
 
-  useEffect(() => {
-    console.log(match.path);
-  }, []);
-
   const onSearchByKeyword = (k) => {
     setKeyword(k);
     const params = new URLSearchParams({keyword: k, genre: genre, page: '1'});
