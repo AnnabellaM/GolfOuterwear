@@ -101,7 +101,7 @@ const Orders = () => {
                         <Grid item xs={6} sx={{textAlign: 'right'}}>
                           <Box sx={{display: 'inline-flex'}}>
                             <Typography variant='h5'>Total:</Typography>
-                            <Typography variant='h6' color='secondary' sx={{ml: 1}}>${order.totalPrice}</Typography>
+                            <Typography variant='h5' color='secondary' sx={{ml: 1}}>${order.totalPrice}</Typography>
                           </Box>
                         </Grid>
                       </Grid>

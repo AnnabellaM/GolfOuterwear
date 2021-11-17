@@ -110,7 +110,7 @@ const Checkout = () => {
   return (
     <Box sx={{padding: 2}}>
       <Box sx={{display: 'flex'}}>
-        <Typography variant="h6">Items</Typography>
+        <Typography variant="h6">Ready To Checkout</Typography>
       </Box>
       <Box sx={{display: 'flex', flexDirection: 'column'}}>
         {items.map((item) => {
@@ -243,6 +243,15 @@ const Checkout = () => {
               <Button
                 variant='contained'
                 sx={{ml: 3}}
+                color='primary'
+                disableElevation
+                onClick={() => history.goBack()}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant='contained'
+                sx={{ml: 1}}
                 color='secondary'
                 disableElevation
                 onClick={() => handleCreateOrder()}

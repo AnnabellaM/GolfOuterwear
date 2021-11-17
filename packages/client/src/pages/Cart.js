@@ -67,7 +67,7 @@ const Cart = () => {
   return (
     <Box sx={{padding: 2}}>
       <Box sx={{display: 'flex'}}>
-        <Typography variant="h6">Items</Typography>
+        <Typography variant="h6">My Shopping Cart</Typography>
       </Box>
       <Box sx={{display: 'flex', flexDirection: 'column'}}>
         {items.map((item, index) => {
