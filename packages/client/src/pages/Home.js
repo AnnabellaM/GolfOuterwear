@@ -2,9 +2,10 @@ import {useLocation, useHistory, Switch, Route, useRouteMatch} from "react-route
 
 import AppBar from "../components/layout/AppBar";
 import ProductList from "../components/home/ProductList";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
+import Profile from "./Profile";
 import Orders from "./Orders";
 
 function Home() {
@@ -41,6 +42,9 @@ function Home() {
         </Route>
         <Route path={`${match.path}checkout`}>
           <Checkout />
+        </Route>
+        <Route path={`${match.path}profile`}>
+          <Profile />
         </Route>
         <Route path={`${match.path}orders`}>
           <Orders />
