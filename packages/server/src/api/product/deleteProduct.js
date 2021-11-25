@@ -2,6 +2,7 @@ const express = require('express');
 const Joi = require('joi');
 const validator = require('express-joi-validation').createValidator({});
 const {Product} = require("../../models/product");
+const verifyToken = require('../../middlewares/verifyToken');
 
 module.exports = () => {
   const router = express.Router();
@@ -9,6 +10,9 @@ module.exports = () => {
   router.delete(
     // path
     '/:id',
+
+    // verify token
+    verifyToken(['admin']),
 
     // validator
     validator.params(

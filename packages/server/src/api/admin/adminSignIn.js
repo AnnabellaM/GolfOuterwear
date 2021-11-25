@@ -1,5 +1,5 @@
 const express = require('express');
-const {Customer} = require('../../models/customer');
+const {Admin} = require('../../models/admin');
 const Joi = require('joi');
 const validator = require('express-joi-validation').createValidator({});
 const jwt = require('jsonwebtoken');
@@ -27,14 +27,14 @@ module.exports = () => {
         password
       } = req.body;
 
-      // find customer
-      const customer = await Customer.findOne({
+      // find admin
+      const admin = await Admin.findOne({
         email: email,
         password: password,
       });
 
-      // cannot find customer, response error
-      if (!customer) {
+      // cannot find admin, response error
+      if (!admin) {
         res.status(401).send({
           message: 'Email or password is incorrect'
         });
@@ -42,10 +42,10 @@ module.exports = () => {
       }
 
       const token = jwt.sign({
-        customerId: customer._id,
+        adminId: admin._id,
       }, config.jwt.secret)
 
-      // response customer info
+      // response admin info
       res.send({
         token,
       });

@@ -7,13 +7,16 @@ import {useEffect, useState} from "react";
 import {useHistory, useLocation} from "react-router-dom";
 import {agent} from "../../agent";
 import CreateProductDialog from "./CreateProductDialog";
+import {useAuth} from "../../providers/AuthProvider";
 
 const ProductList = () => {
+  const history = useHistory();
+  const location = useLocation();
+  const {role} = useAuth();
+
   const [isLoading, setIsLoading] = useState(true);
   const [loadedProducts, setLoadedProducts] = useState([]);
   const [loadedTotalPage, setTotalPage] = useState(1);
-  const history = useHistory();
-  const location = useLocation();
 
   const ITEM_PER_PAGE = 5;
 
@@ -65,9 +68,18 @@ const ProductList = () => {
   return (
     <Container maxWidth="lg" sx={{py: 3}}>
       {/*create product*/}
-      <Box sx={{mb: 2, textAlign: 'right'}}>
-        <CreateProductDialog afterProductCreated={fetchData}/>
-      </Box>
+      {
+        role === 'admin' ?
+          (
+            <Box sx={{mb: 2, textAlign: 'right'}}>
+              <CreateProductDialog afterProductCreated={fetchData}/>
+            </Box>
+          ) :
+          (
+            <></>
+          )
+      }
+
 
       {/*product list*/}
       <Grid container spacing={2}>

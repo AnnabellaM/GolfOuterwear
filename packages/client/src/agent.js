@@ -3,7 +3,11 @@ class Agent {
 
   // format image url
   formatImageUrl(imageUrl) {
-    return `${this.baseUrl}/files${imageUrl}`
+    return `${this.baseUrl}/files${imageUrl}`;
+  }
+
+  getToken() {
+    return `Bearer ${localStorage.getItem('token')}`;
   }
 
   // upload image
@@ -15,6 +19,9 @@ class Agent {
       `${this.baseUrl}/files/upload`,
       {
         method: 'POST',
+        headers: {
+          'Authorization': this.getToken(),
+        },
         body: formData
       }
     );
@@ -54,7 +61,8 @@ class Agent {
       {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
         }
       }
     )
@@ -67,7 +75,8 @@ class Agent {
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
         },
         body: JSON.stringify(data)
       }
@@ -85,11 +94,144 @@ class Agent {
       {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
         },
         body: JSON.stringify(data)
       }
     );
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
+  // add product to cart
+  async addProductToCart(id) {
+    const response = await fetch(
+      `${this.baseUrl}/cart/products/${id}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
+        },
+      }
+    );
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
+  // get number of items in cart
+  async getNumberOfItemsInCart() {
+    const response = await fetch(
+      `${this.baseUrl}/cart/items/number`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
+        },
+      }
+    );
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
+  // get cart
+  async getCart() {
+    const response = await fetch(
+      `${this.baseUrl}/cart`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
+        }
+      }
+    )
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
+  // change product amount in cart
+  async changeProductAmountInCart(productId, amount) {
+    const response = await fetch(
+      `${this.baseUrl}/cart/products/${productId}/amount`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
+        },
+        body: JSON.stringify({amount})
+      }
+    )
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
+  // change product amount in cart
+  async removeProductFromCart(productId) {
+    const response = await fetch(
+      `${this.baseUrl}/cart/products/${productId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
+        },
+      }
+    )
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
+  // create order
+  async createOrder(data) {
+    const response = await fetch(
+      `${this.baseUrl}/orders`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
+  // list orders
+  async listOrders({limit, offset}) {
+    const query = {
+      limit: limit || 20,
+      offset: offset || 0,
+    }
+    const response = await fetch(
+      `${this.baseUrl}/orders?${new URLSearchParams(query)}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
+        }
+      }
+    )
     return {
       status: response.status,
       body: response.status === 400 ? {message: await response.text()} : await response.json(),
@@ -103,7 +245,7 @@ class Agent {
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(info)
       }
@@ -114,19 +256,76 @@ class Agent {
     }
   }
 
-  // sign in
-  async signIn(email, password) {
+  // customer sign in
+  async customerSignIn(email, password) {
     const response = await fetch(
       `${this.baseUrl}/customers/sign-in`,
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: email,
           password: password,
         })
+      }
+    );
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
+  // get customer info
+  async getCustomerInfo() {
+    const response = await fetch(
+      `${this.baseUrl}/customers/me`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
+        }
+      }
+    );
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
+  // admin sign in
+  async adminSignIn(email, password) {
+    const response = await fetch(
+      `${this.baseUrl}/admins/sign-in`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        })
+      }
+    );
+    return {
+      status: response.status,
+      body: response.status === 400 ? {message: await response.text()} : await response.json(),
+    }
+  }
+
+  // get admin info
+  async getAdminInfo() {
+    const response = await fetch(
+      `${this.baseUrl}/admins/me`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.getToken(),
+        }
       }
     );
     return {

@@ -3,6 +3,7 @@ const Joi = require('joi');
 const validator = require('express-joi-validation').createValidator({});
 const mongoose = require('mongoose');
 const {Product} = require("../../models/product");
+const verifyToken = require('../../middlewares/verifyToken');
 
 module.exports = () => {
   const router = express.Router();
@@ -10,6 +11,9 @@ module.exports = () => {
   router.post(
     // path
     '/',
+
+    // verify token
+    verifyToken(['admin']),
 
     // validator
     validator.body(
