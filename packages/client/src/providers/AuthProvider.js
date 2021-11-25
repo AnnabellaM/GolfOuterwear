@@ -17,9 +17,9 @@ const AuthProvider = ({children}) => {
   useEffect(async () => {
     // restore token and role from local storage
     console.log('reload')
-    if (!token || !role) {
-      return history.replace('/sign-in');
-    }
+    // if (!token || !role) {
+    //   return history.replace('/sign-in');
+    // }
 
     // reload user info
     await reloadUserInfo(role);

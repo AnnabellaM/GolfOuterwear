@@ -23,8 +23,8 @@ module.exports = () => {
 
     // controller
     async (req, res) => {
-      // const {customerId} = req.auth;
-      const customerId = '61929a1291f4d4016e60030a';
+      const {customerId} = req.auth;
+      // const customerId = '61929a1291f4d4016e60030a';
       const productId = req.params.id;
 
       // find customer's cart
