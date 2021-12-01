@@ -12,6 +12,7 @@ import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useAuth} from "../providers/AuthProvider";
 import {MenuItem, Select} from "@mui/material";
+import {useHistory} from "react-router-dom";
 
 const theme = createTheme();
 
@@ -20,6 +21,8 @@ function SignIn() {
   const [password, setPassword] = React.useState('');
   const [role, setRole] = React.useState('customer');
   const {signIn} = useAuth();
+
+  const history = useHistory();
 
   const handleSubmit = () => {
     signIn({role, email, password});
@@ -90,7 +93,7 @@ function SignIn() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="./sign-up" variant="body2">
+                <Link href="#" variant="body2" onClick={() => history.push('/sign-up')}>
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
