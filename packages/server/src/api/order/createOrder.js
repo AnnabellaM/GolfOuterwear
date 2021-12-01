@@ -5,6 +5,7 @@ const validator = require('express-joi-validation').createValidator({});
 const {Cart} = require("../../models/cart");
 const {Order} = require("../../models/order");
 const verifyToken = require('../../middlewares/verifyToken');
+const {Product} = require("../../models/product");
 
 module.exports = () => {
   const router = express.Router();
@@ -88,6 +89,13 @@ module.exports = () => {
         createdAt: new Date(),
       })
       await order.save();
+
+      // decrease the product amount
+      for (const item of cart.items) {
+        const product = await Product.findOne({ _id: item.product._id.toString() })
+        product.inventory -= item.amount
+        await product.save()
+      }
 
       // clear the cart
       cart.items = [];
