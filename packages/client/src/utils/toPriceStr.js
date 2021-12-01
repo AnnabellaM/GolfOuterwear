@@ -1,4 +1,4 @@
-module.exports = (price) => {
+export default (price) => {
   const chars = price.toString().split('').reverse()
   let priceStrArr = [];
   let tmp = '';
