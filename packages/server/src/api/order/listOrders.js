@@ -24,6 +24,7 @@ module.exports = () => {
 
     // controller
     async (req, res) => {
+      const {customerId} = req.auth;
       const {
         limit,
         offset,
@@ -34,7 +35,9 @@ module.exports = () => {
         docs,
         totalDocs,
       } = await Order.paginate(
-        {},
+        {
+          customer: customerId
+        },
         {
           limit,
           offset,
