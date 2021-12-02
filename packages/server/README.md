@@ -1,2 +1,8 @@
 # Golf-Outerwear-Server
-This is the folder for backend, it will maintain by Max.
+This is the folder for backend.
+
+## Quick start
+```shell
+npm install
+npm run start
+```
